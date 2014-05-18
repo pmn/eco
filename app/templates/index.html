@@ -5,7 +5,59 @@
     <title>-::eco::-</title>
   </head>
   <body>
-  <script src="static/js/threejs/three.min.js"></script>
+    <script src="static/js/threejs/three.min.js"></script>
+    <script>
+      // Set up the canvas
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+      var box_w = 1;
+      var box_h = 1;
+      var box_d = 1;
 
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75, w/h, 0.1, 1000);
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(w, h);
+      document.body.appendChild(renderer.domElement);
+
+      // Create a cube
+      var geometry = new THREE.BoxGeometry(box_h,box_w,box_d);
+      var material = new THREE.MeshNormalMaterial({color: 0x00ff00});
+      var cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      camera.position.z = 5;
+
+      // Set up rendering function
+      function render() {
+        requestAnimationFrame(render);
+
+        // rotate the cube
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.025;
+
+        // cast shadows
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapSoft = true;
+        renderer.shadowCameraNear = 3;
+        renderer.shadowCameraFar = camera.far;
+        renderer.shadowCameraFov = 50;
+
+        renderer.render(scene, camera);
+      }
+
+      // Render!
+      render();
+
+      // Mouse handlers
+      window.document.onmousedown = function() {
+        box_w += 1;
+        box_d += 1;
+        box_h += 1;
+        console.log("MOUSADOWN")
+      }
+
+    </script>
   </body>
 </html>

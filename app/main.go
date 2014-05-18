@@ -42,7 +42,7 @@ func main() {
 	}
 
 	http.Handle("/", r)
-	http.Handle("/static",
+	http.Handle("/static/",
 		http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
 	log.Printf("[+] starting eco on port %s", port)
